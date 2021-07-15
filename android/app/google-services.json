@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1070281199546",
+    "project_id": "flap-bot",
+    "storage_bucket": "flap-bot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070281199546:android:0dc80f5cbb47fef8f85783",
+        "android_client_info": {
+          "package_name": "com.example.flap_bot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070281199546-9qj5476tfj3ogta25ngt35msobs8i5cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcDtAmjmhTNe9gSlG8CnEb7u43ribKU4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070281199546-9qj5476tfj3ogta25ngt35msobs8i5cj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
