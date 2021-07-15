@@ -58,7 +58,7 @@ class _SendMessageBarState extends State<SendMessageBar> {
         _speech.listen(
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
-            print(_text);
+            //print(_text);
             if (val.hasConfidenceRating && val.confidence > 0) {
               _confidence = val.confidence;
             }
@@ -66,7 +66,13 @@ class _SendMessageBarState extends State<SendMessageBar> {
         );
       }
     } else {
-      setState(() => _isListening = false);
+      setState((){
+         _isListening = false;
+         widget._handleSubmitted(_text);
+         //_text="";
+      });
+      print(_text);
+
       _speech.stop();
     }
   }
@@ -89,7 +95,7 @@ class _SendMessageBarState extends State<SendMessageBar> {
           SizedBox(
             width: 5.0,
           ),
-          !_showMic?GestureDetector(
+          _showMic?GestureDetector(
             onTap: _handleSubmittedLocal,
             child: AvatarGlow(
               animate: _isListening,
@@ -103,7 +109,12 @@ class _SendMessageBarState extends State<SendMessageBar> {
                 child: Icon(_isListening ? Icons.mic : Icons.mic_none),
               ),
             ),
-          ):Icon(Icons.animation),
+          ):GestureDetector(
+            onTap: _handleSubmittedLocal,
+            child: CircleAvatar(
+              child: Icon(Icons.send),
+            ),
+          )
         ],
       ),
     );
