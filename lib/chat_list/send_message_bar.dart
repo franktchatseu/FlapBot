@@ -1,6 +1,6 @@
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:flap_bot/UI/round_input.dart';
 import 'package:flutter/material.dart';
-import '../UI/round_input.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SendMessageBar extends StatefulWidget {
@@ -18,8 +18,9 @@ class _SendMessageBarState extends State<SendMessageBar> {
 
   stt.SpeechToText _speech;
   bool _isListening = false;
-  String _text = 'Press the button and start speaking';
+  String _text = 'je ne comprends pas bien';
   double _confidence = 1.0;
+
 
   @override
   void initState(){
@@ -45,13 +46,31 @@ class _SendMessageBarState extends State<SendMessageBar> {
       _showMic = text.length == 0;
     });
   }
-
+  sendMessage(){
+    if(!_text.isEmpty){
+      widget._handleSubmitted(_text);
+    }
+    setState(() {
+      this._send = false;
+      _isListening = false;
+      _text="";
+    });
+    _speech.stop();
+    print("ss");
+  }
+  bool _send = false;
   // use voice recongnisation
   void _listen() async {
     if (!_isListening) {
       bool available = await _speech.initialize(
-        onStatus: (val) => print('onStatus: $val'),
+        onStatus: (val){
+         print('onStatus: $val');
+         if(val.toString()=="notListening"){
+           setState(() => _send = true);
+         }
+        },
         onError: (val) => print('onError: $val'),
+
       );
       if (available) {
         setState(() => _isListening = true);
@@ -65,10 +84,11 @@ class _SendMessageBarState extends State<SendMessageBar> {
           }),
         );
       }
+
     } else {
       setState((){
          _isListening = false;
-         widget._handleSubmitted(_text);
+         //widget._handleSubmitted(_text);
          //_text="";
       });
       print(_text);
@@ -98,15 +118,15 @@ class _SendMessageBarState extends State<SendMessageBar> {
           _showMic?GestureDetector(
             onTap: _handleSubmittedLocal,
             child: AvatarGlow(
-              animate: _isListening,
+              animate: _isListening && _send==false,
               glowColor: Theme.of(context).primaryColorDark,
               endRadius: 45.0,
               duration: const Duration(milliseconds: 2000),
               repeatPauseDuration: const Duration(milliseconds: 100),
               repeat: true,
               child: FloatingActionButton(
-                onPressed: _listen,
-                child: Icon(_isListening ? Icons.mic : Icons.mic_none),
+                onPressed: _send == false?_listen: sendMessage,
+                child: _send ==false?Icon(_isListening ? Icons.mic : Icons.mic_none):Icon(Icons.send),
               ),
             ),
           ):GestureDetector(
