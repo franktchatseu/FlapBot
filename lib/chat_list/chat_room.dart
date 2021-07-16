@@ -11,6 +11,8 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
   final List<ChatThread> _chatThreads = [];
+  static bool isbotAlreadyWrite = true;
+
 
   ChatThread _buildChatThread(Thread thread) {
     final ct = ChatThread(
@@ -42,11 +44,10 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
       },
     );
   }
-
-  void _handleSubmitted(String text) {
+  void _handleSubmitted(Thread message) {
     final ct = _buildChatThread(Thread(
-      fromSelf: true,
-      message: text,
+      fromSelf: message.fromSelf,
+      message: message.message,
     ));
 
     setState(() {
@@ -84,7 +85,7 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFECE5DD),
-      appBar: buildChatRoomAppBar(Icon(Icons.person), 'Flap Bot'),
+      appBar: buildChatRoomAppBar(Icon(Icons.person), 'FlapBot UY1',isbotAlreadyWrite),
       body: Center(
         child: Column(
           children: <Widget>[

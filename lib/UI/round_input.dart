@@ -18,57 +18,60 @@ class RoundInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20.0),
-      child: Container(
-        color: _color,
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              width: 8.0,
-            ),
-            Icon(
-              Icons.insert_emoticon,
-              size: 30.0,
-              color: Theme.of(context).hintColor,
-            ),
-            SizedBox(
-              width: 8.0,
-            ),
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Type a message',
-                  border: InputBorder.none,
-                ),
-                controller: _textController,
-                onSubmitted: _handleSubmitted,
-                onChanged: (String text) {
-                  if (_handleChange == null) {
-                    return;
-                  }
-
-                  _handleChange(text);
-                },
+    return Padding(
+      padding: const EdgeInsets.only(left: 8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20.0),
+        child: Container(
+          color: _color,
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                width: 8.0,
               ),
-            ),
-            Icon(
-              Icons.attach_file,
-              size: 30.0,
-              color: Theme.of(context).hintColor,
-            ),
-            SizedBox(
-              width: 8.0,
-            ),
-            Icon(
-              Icons.camera_alt,
-              size: 30.0,
-              color: Theme.of(context).hintColor,
-            ),
-            SizedBox(
-              width: 8.0,
-            ),
-          ],
+              Icon(
+                Icons.insert_emoticon,
+                size: 30.0,
+                color: Theme.of(context).hintColor,
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Poser votre question',
+                    border: InputBorder.none,
+                  ),
+                  controller: _textController,
+                  onSubmitted: _handleSubmitted,
+                  onChanged: (String text) {
+                    if (_handleChange == null) {
+                      return;
+                    }
+
+                    _handleChange(text);
+                  },
+                ),
+              ),
+             /* Icon(
+                Icons.attach_file,
+                size: 30.0,
+                color: Theme.of(context).hintColor,
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Icon(
+                Icons.camera_alt,
+                size: 30.0,
+                color: Theme.of(context).hintColor,
+              ),
+              SizedBox(
+                width: 8.0,
+              ),*/
+            ],
+          ),
         ),
       ),
     );

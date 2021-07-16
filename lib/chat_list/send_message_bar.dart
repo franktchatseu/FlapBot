@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flap_bot/UI/round_input.dart';
+import 'package:flap_bot/model/thread.dart';
+import 'package:flap_bot/services/chat_api.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SendMessageBar extends StatefulWidget {
-  final ValueChanged<String> _handleSubmitted;
+  final ValueChanged<Thread> _handleSubmitted;
 
   SendMessageBar(this._handleSubmitted);
 
@@ -18,6 +22,7 @@ class _SendMessageBarState extends State<SendMessageBar> {
 
   stt.SpeechToText _speech;
   bool _isListening = false;
+  bool _botWrite = false;
   String _text = 'je ne comprends pas bien';
   double _confidence = 1.0;
 
@@ -38,17 +43,57 @@ class _SendMessageBarState extends State<SendMessageBar> {
     });
 
     // deal with parent later
-    widget._handleSubmitted(text);
+    Thread message = new Thread(fromSelf: true, message: _text);
+    widget._handleSubmitted(message);
   }
-
+  // get response
+  Future<void> _handleSubmitedServer1(String text) async {
+    setState(() {
+      this._botWrite = true;
+    });
+    ChatApi _chatservice = new ChatApi();
+    //send user text
+    Thread message = new Thread(fromSelf: true, message: text);
+    widget._handleSubmitted(message);
+    _textController.clear();
+    // get reponse to backend api
+    final response = await _chatservice.getReponses(text);
+    if (response.statusCode == 200) {
+      var result = response.data;
+      print(result);
+      Thread message = new Thread(fromSelf: false, message: result["response"]);
+      widget._handleSubmitted(message);
+      _textController.clear();
+      setState(() {
+        _showMic = true;
+      });
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: Text("Le système rencontre une erreur. Contactez l'administrateur svp"),
+          ));
+    }
+    setState(() {
+      this._botWrite = false;
+    });
+  }
   void _handleChange(String text) {
     setState(() {
       _showMic = text.length == 0;
     });
   }
-  sendMessage(){
+
+  sendMessageText(){
+    final text = _textController.text;
+    _handleSubmitedServer1(text);
+  }
+
+  sendMessageVoice(){
     if(!_text.isEmpty){
-      widget._handleSubmitted(_text);
+      Thread message = new Thread(fromSelf: true, message: _text);
+      //widget._handleSubmitted(message);
+      _handleSubmitedServer1(_text);
     }
     setState(() {
       this._send = false;
@@ -56,7 +101,6 @@ class _SendMessageBarState extends State<SendMessageBar> {
       _text="";
     });
     _speech.stop();
-    print("ss");
   }
   bool _send = false;
   // use voice recongnisation
@@ -119,18 +163,18 @@ class _SendMessageBarState extends State<SendMessageBar> {
             onTap: _handleSubmittedLocal,
             child: AvatarGlow(
               animate: _isListening && _send==false,
-              glowColor: Theme.of(context).primaryColorDark,
+              glowColor: Colors.teal.shade900,
               endRadius: 45.0,
               duration: const Duration(milliseconds: 2000),
               repeatPauseDuration: const Duration(milliseconds: 100),
               repeat: true,
               child: FloatingActionButton(
-                onPressed: _send == false?_listen: sendMessage,
+                onPressed: _send == false?_listen: sendMessageVoice,
                 child: _send ==false?Icon(_isListening ? Icons.mic : Icons.mic_none):Icon(Icons.send),
               ),
             ),
           ):GestureDetector(
-            onTap: _handleSubmittedLocal,
+            onTap: this._botWrite==false? sendMessageText:null,
             child: CircleAvatar(
               child: Icon(Icons.send),
             ),
