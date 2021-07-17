@@ -1,6 +1,8 @@
+import 'package:flap_bot/UI/clip_r_thread.dart';
+import 'package:flap_bot/model/thread.dart';
 import 'package:flutter/material.dart';
-import '../model/thread.dart';
-import '../UI/clip_r_thread.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatThread extends StatelessWidget {
   final Thread thread;
@@ -58,7 +60,8 @@ class _LeftThread extends StatelessWidget {
 
   _LeftThread(this.message,
       {this.r = 2.5, this.backgroundColor = Colors.white});
-
+  void _launchURL(String _url) async =>
+      await canLaunch(Uri.encodeFull(_url)) ? await launch(Uri.encodeFull(_url)) : throw 'Could not launch $_url';
   @override
   Widget build(BuildContext context) {
     return ClipPath(
@@ -69,10 +72,16 @@ class _LeftThread extends StatelessWidget {
           constraints: BoxConstraints.loose(MediaQuery.of(context).size * 0.8),
           padding: EdgeInsets.fromLTRB(8.0 + 2 * r, 8.0, 8.0, 8.0),
           color: this.backgroundColor,
-          child: Text(
-            this.message,
+          child: Linkify(
+            text: message,
+            onOpen: (link)  {
+              print("Linkify link = ${link.url}");
+              print(link.url);
+              _launchURL(link.url);
+            },
+            options: LinkifyOptions(humanize: false),
             softWrap: true,
-          ),
+          )
         ),
       ),
     );

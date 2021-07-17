@@ -1,17 +1,19 @@
+import 'package:flap_bot/chat_list/chat_room_app_bar.dart';
+import 'package:flap_bot/chat_list/chat_thread.dart';
+import 'package:flap_bot/chat_list/send_message_bar.dart';
+import 'package:flap_bot/model/thread.dart';
 import 'package:flutter/material.dart';
-import './chat_room_app_bar.dart';
-import './chat_thread.dart';
-import '../model/thread.dart';
-import './send_message_bar.dart';
+
 
 class ChatRoom extends StatefulWidget {
+  static bool isbotAlreadyWrite = false;
+
   @override
   _ChatRoomState createState() => _ChatRoomState();
 }
 
 class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
   final List<ChatThread> _chatThreads = [];
-  static bool isbotAlreadyWrite = true;
 
 
   ChatThread _buildChatThread(Thread thread) {
@@ -85,7 +87,7 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFECE5DD),
-      appBar: buildChatRoomAppBar(Icon(Icons.person), 'FlapBot UY1',isbotAlreadyWrite),
+      appBar: buildChatRoomAppBar(Icon(Icons.person), 'FlapBot UY1',ChatRoom.isbotAlreadyWrite),
       body: Center(
         child: Column(
           children: <Widget>[

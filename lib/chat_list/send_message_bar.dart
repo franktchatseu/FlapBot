@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flap_bot/UI/round_input.dart';
+import 'package:flap_bot/chat_list/chat_room.dart';
 import 'package:flap_bot/model/thread.dart';
 import 'package:flap_bot/services/chat_api.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +51,7 @@ class _SendMessageBarState extends State<SendMessageBar> {
   Future<void> _handleSubmitedServer1(String text) async {
     setState(() {
       this._botWrite = true;
+      ChatRoom.isbotAlreadyWrite = true;
     });
     ChatApi _chatservice = new ChatApi();
     //send user text
@@ -76,6 +78,8 @@ class _SendMessageBarState extends State<SendMessageBar> {
     }
     setState(() {
       this._botWrite = false;
+      ChatRoom.isbotAlreadyWrite = false;
+
     });
   }
   void _handleChange(String text) {
@@ -156,21 +160,23 @@ class _SendMessageBarState extends State<SendMessageBar> {
               handleChange: _handleChange,
             ),
           ),
-          SizedBox(
-            width: 5.0,
-          ),
+
           _showMic?GestureDetector(
             onTap: _handleSubmittedLocal,
             child: AvatarGlow(
               animate: _isListening && _send==false,
               glowColor: Colors.teal.shade900,
-              endRadius: 45.0,
+              endRadius: 28.0,
               duration: const Duration(milliseconds: 2000),
               repeatPauseDuration: const Duration(milliseconds: 100),
               repeat: true,
-              child: FloatingActionButton(
-                onPressed: _send == false?_listen: sendMessageVoice,
-                child: _send ==false?Icon(_isListening ? Icons.mic : Icons.mic_none):Icon(Icons.send),
+              child: Container(
+                height: 40,
+                child: FloatingActionButton(
+                  elevation: _isListening?45:0,
+                  onPressed: _send == false?_listen: sendMessageVoice,
+                  child: _send ==false?Icon(_isListening ? Icons.mic : Icons.mic_none):Icon(Icons.send),
+                ),
               ),
             ),
           ):GestureDetector(

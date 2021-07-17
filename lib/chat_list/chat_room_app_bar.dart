@@ -1,3 +1,4 @@
+import 'package:flap_bot/chat_list/chat_room.dart';
 import 'package:flutter/material.dart';
 
 PreferredSizeWidget buildChatRoomAppBar(Widget avatar, String title,bool botWrite) {
@@ -31,10 +32,10 @@ PreferredSizeWidget buildChatRoomAppBar(Widget avatar, String title,bool botWrit
             ],
           ),
         ),
-    /*botWrite==true?Padding(
+    ChatRoom.isbotAlreadyWrite==true?Padding(
           padding: const EdgeInsets.only(left:45.0),
           child: Text("Flapbot est entrain d'ecrire ...", style: TextStyle(fontSize: 10),)
-        ):Text(""),*/
+        ):Text(""),
       ],
     ),
     actions: <Widget>[
