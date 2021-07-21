@@ -1,6 +1,8 @@
 import 'package:flap_bot/chat_list/chat_room.dart';
-import 'package:flap_bot/home/home.dart';
+import 'package:flap_bot/login_screen.dart';
+import 'package:flap_bot/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -10,6 +12,13 @@ class StartPage extends StatefulWidget {
 class _StartPageState extends State<StartPage> {
   String assetName = 'assets/chat_logo.png';
   int color = 0xff5521;
+
+  @override
+  void initState() {
+    //checkIfUserLoggedIn();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,22 +37,24 @@ class _StartPageState extends State<StartPage> {
             "Welcome to FLAP BOT",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 30.0
+              fontSize: 30.0,
+              fontFamily: 'Google Sans'
             ),
           ),
           SizedBox(height: 20.0,),
-          RaisedButton(
-            padding: EdgeInsets.all(10),
-            onPressed: () => gotoLogin(),
-            color: Color(0xFFff5521),
-            child: Text("ALREADY HAVE ACCOUNT"),
-            textColor: Colors.white,
-          ),
-          RaisedButton(
-            onPressed: () => gotoSignup(),
-            child: Text("NEED A NEW ACCOUNT?"),
-            color: Colors.white,
-            textColor: Theme.of(context).primaryColor,
+          InkWell(
+            onTap: checkIfUserLoggedIn,
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text("START CONVERSATION",style: TextStyle(fontFamily: 'Google Sans',fontSize: 17,fontWeight: FontWeight.w600),),
+              ) ,
+            ),
           ),
         ],
       ),
@@ -53,15 +64,30 @@ class _StartPageState extends State<StartPage> {
   gotoLogin(){
     Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => ChatRoom()
+          builder: (context) => LoginScreen()
         )
     );
   }
   gotoSignup(){
     Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => ChatRoom()
+          builder: (context) => Splash()
         )
     );
   }
+
+  // check if user is already connect
+  checkIfUserLoggedIn()async{
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    bool userLoggedIn  = (_prefs.getString('email')!=null?true:false);
+
+    if(userLoggedIn==true){
+      print(_prefs.getString('email'));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChatRoom()));
+    }else{
+      gotoSignup();
+    }
+
+  }
+
 }

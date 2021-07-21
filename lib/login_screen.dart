@@ -2,7 +2,9 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flap_bot/View_Model/sign_in_view_model.dart';
 import 'package:flap_bot/base/base_view.dart';
+import 'package:flap_bot/chat_list/chat_room.dart';
 import 'package:flap_bot/splash.dart';
+import 'package:flap_bot/utils/deviceSize.dart';
 import 'package:flap_bot/utils/routeNames.dart';
 import 'package:flap_bot/utils/util.dart';
 import 'package:flap_bot/utils/view_state.dart';
@@ -10,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -30,10 +33,13 @@ class _LoginScreenState extends State<LoginScreen>{
   bool isSignIn =false;
   bool google =false;
 
-
   @override
   Widget build(BuildContext context) {
-
+    deviceSize = DeviceSize(
+        size: MediaQuery.of(context).size,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        aspectRatio: MediaQuery.of(context).size.aspectRatio);
     return BaseView<SignInViewModel>(
         onModelReady: (model) {},
         builder: (context, model, build) {
@@ -82,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen>{
                                       Padding(
                                         padding: const EdgeInsets.only(top:15.0,right: 14,left: 14,bottom: 8),
                                         child: TextFormField(
+                                          enabled: false,
                                           controller: model.userIdController,
                                           style: TextStyle(color: Colors.black,fontWeight:FontWeight.bold,fontSize: 15),
                                           decoration: InputDecoration(
@@ -103,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen>{
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0,right: 14,left: 14,bottom: 8),
                                         child: TextFormField(
+                                          enabled: false,
                                           controller: model.passwordController,
                                           obscureText: !model.passwordVisible,
                                           style: TextStyle(color: Colors.black,fontWeight:FontWeight.bold,fontSize: 15),
@@ -134,12 +142,12 @@ class _LoginScreenState extends State<LoginScreen>{
                                       InkWell(
                                         child: Container(
                                             width: deviceSize
-                                                .width/2,
+                                                .width/2 +20,
                                             height: deviceSize.height/18,
                                             margin: EdgeInsets.only(top: 25),
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(20),
-                                                color:Colors.black
+                                                color:Theme.of(context).primaryColor
                                             ),
                                             child: Center(
                                                 child: Row(
@@ -203,6 +211,7 @@ class _LoginScreenState extends State<LoginScreen>{
   }
 
 
+
   Future<FirebaseUser> signInWithGoogle(SignInViewModel model) async {
     model.state =ViewState.Busy;
 
@@ -237,6 +246,8 @@ class _LoginScreenState extends State<LoginScreen>{
 
     print("User Name: ${_user.displayName}");
     print("User Email ${_user.email}");
-
+    // save user credential
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.setString("email",_user.displayName );
   }
 }

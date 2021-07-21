@@ -9,7 +9,7 @@ class Utils {
     return ProgressHUD(
       backgroundColor: Colors.black54,
       color: Colors.white,
-      containerColor:Colors.red,
+      containerColor:Color(0xFF4e54c8),
       borderRadius: 5.0,
       text: 'Please wait',
     );

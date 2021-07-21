@@ -125,9 +125,9 @@ class _SendMessageBarState extends State<SendMessageBar> {
         _speech.listen(
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
-            //print(_text);
             if (val.hasConfidenceRating && val.confidence > 0) {
               _confidence = val.confidence;
+              print("i understood very well");
             }
           }),
         );
@@ -182,7 +182,8 @@ class _SendMessageBarState extends State<SendMessageBar> {
           ):GestureDetector(
             onTap: this._botWrite==false? sendMessageText:null,
             child: CircleAvatar(
-              child: Icon(Icons.send),
+              child: Icon(Icons.send,color: Colors.white,),
+              backgroundColor: Theme.of(context).primaryColor,
             ),
           )
         ],

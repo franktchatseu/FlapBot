@@ -1,8 +1,11 @@
+import 'package:flap_bot/UI/start.dart';
 import 'package:flap_bot/chat_list/chat_room_app_bar.dart';
 import 'package:flap_bot/chat_list/chat_thread.dart';
 import 'package:flap_bot/chat_list/send_message_bar.dart';
+import 'package:flap_bot/login_screen.dart';
 import 'package:flap_bot/model/thread.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ChatRoom extends StatefulWidget {
@@ -62,16 +65,8 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
   @override
   void initState() {
     final threads = [
-      Thread(fromSelf: false, message: 'Bonjour Frank!'),
-      Thread(fromSelf: false, message: 'Que puis je faire pour vous?'),
-      Thread(fromSelf: true, message: 'Comment faire pour ce preincrire à UY1?'),
-      Thread(fromSelf: false, message: 'il vous suffit juste de ... ?'),
-      Thread(fromSelf: true, message: 'Merci'),
-      Thread(fromSelf: false, message: 'Bonjour Frank!'),
-      Thread(fromSelf: false, message: 'Que puis je faire pour vous?'),
-      Thread(fromSelf: true, message: 'Où se trouve le departement informatique?'),
-      Thread(fromSelf: false, message: 'tres simple. dirige toi vers ... ?'),
-      Thread(fromSelf: true, message: 'tu es un genie'),
+      Thread(fromSelf: false, message: '/start'),
+
     ];
 
     threads.forEach((thread) {
@@ -86,8 +81,62 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFECE5DD),
+      backgroundColor: Colors.white,
       appBar: buildChatRoomAppBar(Icon(Icons.person), 'FlapBot UY1',ChatRoom.isbotAlreadyWrite),
+      drawer: Drawer(
+
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [Theme.of(context).primaryColor,Theme.of(context).primaryColorDark])
+                  ),
+                  child: Center(
+                    child: Container(
+                      height: 140,
+                      width: 130,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(80),
+                          image: DecorationImage(
+                            fit:BoxFit.cover,
+                            image: NetworkImage("https://us.123rf.com/450wm/klauts/klauts1007/klauts100700010/7319401-cute-illustration-of-a-smiling-woman.jpg?ver=6"),
+                          )
+                      ),
+                    )
+                  )
+              ),
+              ListTile(
+                leading: Icon(Icons.contact_page_outlined,color: Theme.of(context).primaryColor,),
+                title: Text('About us',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor,fontFamily: 'Google Sans'),),
+                onTap: () {
+                  //deconnection();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.phone,color: Theme.of(context).primaryColor,),
+                title: Text('Contact Us',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor,fontFamily: 'Google Sans'),),
+                onTap: () {
+                  //deconnection();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.help,color: Theme.of(context).primaryColor,),
+                title: Text('Help',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor,fontFamily: 'Google Sans'),),
+                onTap: () {
+                  //deconnection();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.logout,color: Theme.of(context).primaryColor,),
+                title: Text('Déconnexion',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor,fontFamily: 'Google Sans'),),
+                onTap: () {
+                  signup();
+                },
+              ),
+            ],
+          )),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -99,6 +148,18 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  void signup() async{
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    _pref.clear();
+    if(Navigator.canPop(context)){
+      Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) => LoginScreen()
+          )
+      );
+    }
   }
 
   @override

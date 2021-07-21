@@ -57,6 +57,7 @@ class _LeftThread extends StatelessWidget {
   final String message;
   final Color backgroundColor;
   final double r;
+  final Color chatLeftThread = Color(0xFFf0f0f0);
 
   _LeftThread(this.message,
       {this.r = 2.5, this.backgroundColor = Colors.white});
@@ -71,9 +72,13 @@ class _LeftThread extends StatelessWidget {
         child: Container(
           constraints: BoxConstraints.loose(MediaQuery.of(context).size * 0.8),
           padding: EdgeInsets.fromLTRB(8.0 + 2 * r, 8.0, 8.0, 8.0),
-          color: this.backgroundColor,
+          color: this.chatLeftThread,
           child: Linkify(
             text: message,
+            style: TextStyle(
+              color: Color(0xFF353535),
+              fontFamily: 'Google Sans'
+            ),
             onOpen: (link)  {
               print("Linkify link = ${link.url}");
               print(link.url);
@@ -92,7 +97,7 @@ class _RightThread extends StatelessWidget {
   final String message;
   final Color backgroundColor;
   final double r;
-
+  final Color chatRightThread = Color(0xFF3c8fd5);
   _RightThread(this.message,
       {this.r = 2.5, this.backgroundColor = Colors.white});
 
@@ -105,12 +110,16 @@ class _RightThread extends StatelessWidget {
         child: Container(
           constraints: BoxConstraints.loose(MediaQuery.of(context).size * 0.8),
           padding: EdgeInsets.fromLTRB(8.0 + 2 * r, 8.0, 8.0, 8.0),
-          color: this.backgroundColor,
+          color: chatRightThread,
           child: Transform(
             transform: Matrix4.diagonal3Values(-1.0, 1.0, 1.0),
             child: Text(
               this.message,
               softWrap: true,
+              style: TextStyle(
+                color: Colors.white,
+                  fontFamily: 'Google Sans'
+              ),
             ),
             alignment: Alignment.center,
           ),

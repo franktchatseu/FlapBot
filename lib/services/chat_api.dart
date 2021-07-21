@@ -23,7 +23,7 @@ class ChatApi{
     });
     var dio = new Dio();
     dio.options.contentType = Headers.formUrlEncodedContentType;
-    return await dio.post('https://flapbotuy1.herokuapp.com/api/botqr', data:formData,options: Options(
+    return await dio.post('https://flapbotuy1.herokuapp.com/api/conversation', data:formData,options: Options(
         followRedirects: false,
         validateStatus: (status) {
           return status <= 500;

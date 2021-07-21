@@ -61,10 +61,10 @@ class _MyAppState extends State<MyApp> {
           onGenerateRoute: Routes.onGenerateRoute,
 
           theme: ThemeData(
-            primaryColor: Color(0xFF37474f),
+            primaryColor: Color(0xFF3c8fd5),
             indicatorColor: Colors.white,
-            primaryColorDark: Color(0xFFff9800),
-            accentColor: Color(0xFFffd95b),
+            primaryColorDark: Color(0xFFf8af6a),
+            accentColor: Color(0xFF3c8fd5),
             primaryIconTheme: IconThemeData(
               color: Colors.white,
             ),

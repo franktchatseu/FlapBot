@@ -14,7 +14,7 @@ class RoundInput extends StatelessWidget {
   })  : _textController = textController,
         _handleSubmitted = handleSubmitted,
         _handleChange = handleChange,
-        _color = color ?? Colors.white;
+        _color = color ?? Color(0xFFf0f0f0);
 
   @override
   Widget build(BuildContext context) {
