@@ -1,4 +1,4 @@
-package com.example.flap_bot
+package io.sdoa.flapbot
 
 import io.flutter.embedding.android.FlutterActivity
 

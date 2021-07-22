@@ -9,7 +9,44 @@
       "client_info": {
         "mobilesdk_app_id": "1:1070281199546:android:0dc80f5cbb47fef8f85783",
         "android_client_info": {
-          "package_name": "com.example.flap_bot"
+          "package_name": "io.sdoa.flapbot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070281199546-k2j4afhogo3dnnh3p6qkiapqeedohnpj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.sdoa.flapbot",
+            "certificate_hash": "43e324f2385ca760942b6c2d11e2861cb2628ab1"
+          }
+        },
+        {
+          "client_id": "1070281199546-9qj5476tfj3ogta25ngt35msobs8i5cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcDtAmjmhTNe9gSlG8CnEb7u43ribKU4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070281199546-9qj5476tfj3ogta25ngt35msobs8i5cj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070281199546:android:b16f0ec6eb7f65ecf85783",
+        "android_client_info": {
+          "package_name": "io.sdoa.flapbot"
         }
       },
       "oauth_client": [
