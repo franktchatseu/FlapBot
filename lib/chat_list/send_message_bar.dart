@@ -70,6 +70,11 @@ class _SendMessageBarState extends State<SendMessageBar> {
         _showMic = true;
       });
     } else {
+      setState(() {
+        this._botWrite = false;
+        ChatRoom.isbotAlreadyWrite = false;
+
+      });
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
