@@ -54,7 +54,7 @@ class VideoState extends State<Splash> with SingleTickerProviderStateMixin {
         height: MediaQuery.of(context).size.height,
         aspectRatio: MediaQuery.of(context).size.aspectRatio);
     return ChangeNotifierProvider<SignInViewModel>(
-        builder: (_) => SignInViewModel(),
+        create: (_) => SignInViewModel(),
         child: Scaffold(
           backgroundColor: Colors.white,
           body: Stack(

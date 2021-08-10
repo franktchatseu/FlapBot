@@ -35,7 +35,7 @@ class _BaseViewState<T extends BaseModel> extends State<BaseView<T>> {
     );*/
     return ChangeNotifierProvider<T>.value(
       //builder: (context) => model,
-      child: Consumer<T>(builder: widget.builder), notifier: model,
+      child: Consumer<T>(builder: widget.builder), value: model,
     );
   }
 }

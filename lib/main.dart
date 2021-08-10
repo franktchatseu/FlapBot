@@ -16,7 +16,7 @@ void main() {
   setLocator();
   runApp(MultiProvider(child: MyApp(), providers: [
     ChangeNotifierProvider<HomeViewModel>(
-      builder: (_) => HomeViewModel(),
+      create: (_) => HomeViewModel(),
     ),
   ],));}
 
@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         Brightness.light //or set color with: Color(0xFF0000FF)
     ));
     return ChangeNotifierProvider<SignInViewModel>(
-      builder: (_) => SignInViewModel(),
+      create: (_) => SignInViewModel(),
       child: Center(
         child: MaterialApp(
           initialRoute: '/',
