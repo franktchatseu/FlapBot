@@ -80,13 +80,14 @@ class _StartPageState extends State<StartPage> {
   checkIfUserLoggedIn()async{
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     bool userLoggedIn  = (_prefs.getString('email')!=null?true:false);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChatRoom()));
 
-    if(userLoggedIn==true){
+    /*if(userLoggedIn==true){
       print(_prefs.getString('email'));
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChatRoom()));
     }else{
       gotoSignup();
-    }
+    }*/
 
   }
 

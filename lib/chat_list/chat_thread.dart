@@ -1,5 +1,7 @@
 import 'package:flap_bot/UI/clip_r_thread.dart';
 import 'package:flap_bot/model/thread.dart';
+import 'package:flap_bot/voice_record/text-to-speech.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -68,26 +70,32 @@ class _LeftThread extends StatelessWidget {
     return ClipPath(
       clipper: ClipRThread(r),
       child: ClipRRect(
+
         borderRadius: BorderRadius.all(Radius.circular(r)),
-        child: Container(
-          constraints: BoxConstraints.loose(MediaQuery.of(context).size * 0.8),
-          padding: EdgeInsets.fromLTRB(8.0 + 2 * r, 8.0, 8.0, 8.0),
-          color: this.chatLeftThread,
-          child: Linkify(
-            text: message,
-            style: TextStyle(
-              color: Color(0xFF353535),
-              fontFamily: 'Google Sans'
+        child: Row(
+          children: [
+            Container(
+                constraints: BoxConstraints.loose(MediaQuery.of(context).size * 0.75),
+                padding: EdgeInsets.fromLTRB(8.0 + 2 * r, 8.0, 8.0, 8.0),
+                color: this.chatLeftThread,
+                child: Linkify(
+                  text: message,
+                  style: TextStyle(
+                      color: Color(0xFF353535),
+                      fontFamily: 'Google Sans'
+                  ),
+                  onOpen: (link)  {
+                    print("Linkify link = ${link.url}");
+                    print(link.url);
+                    _launchURL(link.url);
+                  },
+                  options: LinkifyOptions(humanize: false),
+                  softWrap: true,
+                )
             ),
-            onOpen: (link)  {
-              print("Linkify link = ${link.url}");
-              print(link.url);
-              _launchURL(link.url);
-            },
-            options: LinkifyOptions(humanize: false),
-            softWrap: true,
-          )
-        ),
+            TextToSpeech(message)
+          ],
+        )
       ),
     );
   }
