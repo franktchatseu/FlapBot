@@ -33,7 +33,7 @@ class ChatThread extends StatelessWidget {
     } else {
       child = Container(
         padding: EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
+          child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             _LeftThread(
@@ -70,7 +70,6 @@ class _LeftThread extends StatelessWidget {
     return ClipPath(
       clipper: ClipRThread(r),
       child: ClipRRect(
-
         borderRadius: BorderRadius.all(Radius.circular(r)),
         child: Row(
           children: [

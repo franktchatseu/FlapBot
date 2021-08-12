@@ -1,7 +1,6 @@
 import 'package:flap_bot/chat_list/chat_room.dart';
 import 'package:flap_bot/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,10 +9,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  //final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   void signOutGoogle() async{
-    await _googleSignIn.signOut();
+    //await _googleSignIn.signOut();
     print("User Sign Out");
   }
 

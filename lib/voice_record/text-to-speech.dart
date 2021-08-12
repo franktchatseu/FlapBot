@@ -111,7 +111,7 @@ class _TTSPluginRecipeState extends State<TextToSpeech> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 72,
+      width: 73,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -167,7 +167,7 @@ class _TTSPluginRecipeState extends State<TextToSpeech> {
                 size: 20,
                 color: Color(0xFF3c8fd5),
               ),
-              Text(widget.isFast?"x1":"x2",style: TextStyle(fontFamily: 'Google Sans',color: Colors.amber,fontWeight: FontWeight.bold,fontSize: 13),)
+              Text(widget.isFast?"x2":"x1",style: TextStyle(fontFamily: 'Google Sans',color: Colors.amber,fontWeight: FontWeight.bold,fontSize: 13),)
             ],
           ),
         )

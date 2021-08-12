@@ -34,10 +34,10 @@ class _StartPageState extends State<StartPage> {
           ),
           SizedBox(height: 20.0,),
           Text(
-            "Welcome to FLAP BOT",
+            "Welcome to FLAP BOT UY1",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 30.0,
+              fontSize: 27.0,
               fontFamily: 'Google Sans'
             ),
           ),
@@ -45,15 +45,40 @@ class _StartPageState extends State<StartPage> {
           InkWell(
             onTap: checkIfUserLoggedIn,
             child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Text("START CONVERSATION",style: TextStyle(fontFamily: 'Google Sans',fontSize: 17,fontWeight: FontWeight.w600),),
-              ) ,
+                width: MediaQuery.of(context).size
+                    .width/2 +20,
+                height: MediaQuery.of(context).size.height/18,
+                margin: EdgeInsets.only(top: 25),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color:Colors.white
+                ),
+                child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          height: 30.0,
+                          width: 30.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image:
+                                AssetImage('assets/google.jpg'),
+                                fit: BoxFit.cover),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        Text('Sign in with Google',
+                          style: TextStyle(
+                            fontFamily: 'Google Sans',
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black
+                          ),
+                        ),
+                      ],
+                    )
+                )
             ),
           ),
         ],
@@ -90,5 +115,7 @@ class _StartPageState extends State<StartPage> {
     }*/
 
   }
+
+
 
 }
