@@ -36,7 +36,7 @@ class _StartPageState extends State<StartPage> {
     //return await FirebaseAuth.instance.signInWithCredential(credential);
     //return await FirebaseAuth.instance.signInWithCredential(credential);
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
