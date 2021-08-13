@@ -66,9 +66,9 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
   void initState() {
     final threads = [
       Thread(fromSelf: true, message: "Salut je viens d'arriver à l'université et j'aimerais savoir comment m'y prendre"),
-      Thread(fromSelf: false, message: "Salut moi c'est FlapBot UY1 je suis à ta disposition . ",showVoice: false),
+      Thread(fromSelf: false, message: "👋 Salut moi c'est FlapBot UY1 je suis à ta disposition.  As tu besoin des informations liées aux procédures de préinscriptions, locations des lieux de UY1, obtention d'une chambre d'étudiant,...? ",showVoice: false),
       Thread(fromSelf: false, message: "Je parle aussi tu sais.. tu peux apppuyer sur le bouton play pour m'ecouter",showVoice: true),
-      Thread(fromSelf: false, message: "Aussi n'oublie pas que tu as la possibilité d'utiliser ton micro pour parler en faisant un simple clic dessus 😊",showVoice: false),
+      Thread(fromSelf: false, message: "Aussi, n'oublie pas que tu as la possibilité d'utiliser ton micro pour parler en faisant un simple clic dessus. 😊",showVoice: false),
 
     ];
 
