@@ -39,6 +39,7 @@ class ChatThread extends StatelessWidget {
             _LeftThread(
               thread.message,
               backgroundColor: Color(0xFFfff3e0),
+              showVoice: thread.showVoice,
             ),
           ],
         ),
@@ -60,9 +61,10 @@ class _LeftThread extends StatelessWidget {
   final Color backgroundColor;
   final double r;
   final Color chatLeftThread = Color(0xFFf0f0f0);
+  bool showVoice = false;
 
   _LeftThread(this.message,
-      {this.r = 2.5, this.backgroundColor = Colors.white});
+      {this.r = 2.5, this.backgroundColor = Colors.white,this.showVoice});
   void _launchURL(String _url) async =>
       await canLaunch(Uri.encodeFull(_url)) ? await launch(Uri.encodeFull(_url)) : throw 'Could not launch $_url';
   @override
@@ -92,7 +94,7 @@ class _LeftThread extends StatelessWidget {
                   softWrap: true,
                 )
             ),
-            TextToSpeech(message)
+            this.showVoice?TextToSpeech(message):Text("")
           ],
         )
       ),

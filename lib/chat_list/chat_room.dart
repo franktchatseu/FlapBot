@@ -2,7 +2,6 @@ import 'package:flap_bot/UI/start.dart';
 import 'package:flap_bot/chat_list/chat_room_app_bar.dart';
 import 'package:flap_bot/chat_list/chat_thread.dart';
 import 'package:flap_bot/chat_list/send_message_bar.dart';
-import 'package:flap_bot/login_screen.dart';
 import 'package:flap_bot/model/thread.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,6 +52,7 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
     final ct = _buildChatThread(Thread(
       fromSelf: message.fromSelf,
       message: message.message,
+      showVoice: true
     ));
 
     setState(() {
@@ -65,7 +65,10 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
   @override
   void initState() {
     final threads = [
-      Thread(fromSelf: false, message: '/start'),
+      Thread(fromSelf: true, message: "Salut je viens d'arriver à l'université et j'aimerais savoir comment m'y prendre"),
+      Thread(fromSelf: false, message: "Salut moi c'est FlapBot UY1 je suis à ta disposition . ",showVoice: false),
+      Thread(fromSelf: false, message: "Je parle aussi tu sais.. tu peux apppuyer sur le bouton play pour m'ecouter",showVoice: true),
+      Thread(fromSelf: false, message: "Aussi n'oublie pas que tu as la possibilité d'utiliser ton micro pour parler en faisant un simple clic dessus 😊",showVoice: false),
 
     ];
 
@@ -156,7 +159,7 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
     if(Navigator.canPop(context)){
       Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) => LoginScreen()
+              builder: (context) => StartPage()
           )
       );
     }

@@ -55,7 +55,7 @@ class _SendMessageBarState extends State<SendMessageBar> {
     });
     ChatApi _chatservice = new ChatApi();
     //send user text
-    Thread message = new Thread(fromSelf: true, message: text);
+    Thread message = new Thread(fromSelf: true, message: text,showVoice: false);
     widget._handleSubmitted(message);
     _textController.clear();
     // get reponse to backend api
@@ -63,7 +63,7 @@ class _SendMessageBarState extends State<SendMessageBar> {
     if (response.statusCode == 200) {
       var result = response.data;
       print(result);
-      Thread message = new Thread(fromSelf: false, message: result["response"]);
+      Thread message = new Thread(fromSelf: false, message: result["response"],showVoice: true);
       widget._handleSubmitted(message);
       _textController.clear();
       setState(() {

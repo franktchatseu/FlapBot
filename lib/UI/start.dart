@@ -1,6 +1,4 @@
 import 'package:flap_bot/chat_list/chat_room.dart';
-import 'package:flap_bot/login_screen.dart';
-import 'package:flap_bot/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,7 +41,7 @@ class _StartPageState extends State<StartPage> {
           ),
           SizedBox(height: 20.0,),
           InkWell(
-            onTap: checkIfUserLoggedIn,
+            onTap: gotoConversation,
             child: Container(
                 width: MediaQuery.of(context).size
                     .width/2 +20,
@@ -89,14 +87,14 @@ class _StartPageState extends State<StartPage> {
   gotoLogin(){
     Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => LoginScreen()
+          builder: (context) => StartPage()
         )
     );
   }
-  gotoSignup(){
+  gotoConversation(){
     Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => Splash()
+          builder: (context) => ChatRoom()
         )
     );
   }

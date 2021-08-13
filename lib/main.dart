@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flap_bot/View_Model/home_view_model.dart';
 import 'package:flap_bot/View_Model/sign_in_view_model.dart';
 import 'package:flap_bot/utils/locator.dart';
@@ -22,7 +21,7 @@ void main() {
 
 
 class MyApp extends StatefulWidget{
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   _MyAppState createState() => _MyAppState();
