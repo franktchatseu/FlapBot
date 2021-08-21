@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flap_bot/View_Model/sign_in_view_model.dart';
 import 'package:flap_bot/chat_list/chat_room.dart';
+import 'package:flap_bot/utils/routeNames.dart';
+import 'package:flap_bot/utils/view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,31 +15,59 @@ class StartPage extends StatefulWidget {
 class _StartPageState extends State<StartPage> {
   String assetName = 'assets/chat_logo.png';
   int color = 0xff5521;
+  FirebaseUser _user;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+   bool loginstatus = false;
 
+  bool isSignIn =false;
+  bool google =false;
   @override
   void initState() {
     //checkIfUserLoggedIn();
     super.initState();
   }
-  // sig
-  Future<dynamic> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+  Future<FirebaseUser> signInWithGoogle() async {
+    setState(() {
+      this.loginstatus = true;
+    });
+    GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    GoogleSignInAuthentication googleSignInAuthentication =
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
+    await googleSignInAccount.authentication;
+
+    AuthCredential credential = GoogleAuthProvider.getCredential(
+
+      accessToken: googleSignInAuthentication.accessToken,
+
+      idToken: googleSignInAuthentication.idToken,
+
     );
 
-    // Once signed in, return the UserCredential
-    //return await FirebaseAuth.instance.signInWithCredential(credential);
-    //return await FirebaseAuth.instance.signInWithCredential(credential);
+    setState(() {
+      this.loginstatus = false;
+    });
+    AuthResult authResult = await _auth.signInWithCredential(credential);
+
+    _user = authResult.user;
+
+    assert(!_user.isAnonymous);
+
+    assert(await _user.getIdToken() != null);
+
+    FirebaseUser currentUser = await _auth.currentUser();
+
+    assert(_user.uid == currentUser.uid);
+
+
+    print("User Name: ${_user.displayName}");
+    print("User Email ${_user.email}");
+    // save user credential
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.setString("email",_user.displayName );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +94,13 @@ class _StartPageState extends State<StartPage> {
           InkWell(
             onTap: (){
               print("ds");
-              signInWithGoogle();
+              signInWithGoogle()
+                  .then((FirebaseUser user){
+
+                Navigator.of(context).pushNamedAndRemoveUntil
+                  (RouteName.Home, (Route<dynamic> route) => false
+                );}
+              ).catchError((e) => print(e));
             },
             child: Container(
                 width: MediaQuery.of(context).size
@@ -78,7 +115,7 @@ class _StartPageState extends State<StartPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Container(
+                        this.loginstatus==false?Container(
                           height: 30.0,
                           width: 30.0,
                           decoration: BoxDecoration(
@@ -88,7 +125,7 @@ class _StartPageState extends State<StartPage> {
                                 fit: BoxFit.cover),
                             shape: BoxShape.circle,
                           ),
-                        ),
+                        ):CircularProgressIndicator(),
                         Text('Sign in with Google',
                           style: TextStyle(
                             fontFamily: 'Google Sans',
