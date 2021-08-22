@@ -6,6 +6,7 @@ import 'package:flap_bot/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -51,25 +52,22 @@ class _MyAppState extends State<MyApp> {
         statusBarIconBrightness:
         Brightness.light //or set color with: Color(0xFF0000FF)
     ));
-    return ChangeNotifierProvider<SignInViewModel>(
-      create: (_) => SignInViewModel(),
-      child: Center(
-        child: MaterialApp(
-          initialRoute: '/',
-          debugShowCheckedModeBanner: false,
-          onGenerateRoute: Routes.onGenerateRoute,
+    return Center(
+      child: MaterialApp(
+        initialRoute: '/',
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: Routes.onGenerateRoute,
 
-          theme: ThemeData(
-            primaryColor: Color(0xFF3c8fd5),
-            indicatorColor: Colors.white,
-            primaryColorDark: Color(0xFFf8af6a),
-            accentColor: Color(0xFF3c8fd5),
-            primaryIconTheme: IconThemeData(
-              color: Colors.white,
-            ),
-            textTheme: TextTheme(
-              title: TextStyle(color: Colors.white),
-            ),
+        theme: ThemeData(
+          primaryColor: Color(0xFF3c8fd5),
+          indicatorColor: Colors.white,
+          primaryColorDark: Color(0xFFf8af6a),
+          accentColor: Color(0xFF3c8fd5),
+          primaryIconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+          textTheme: TextTheme(
+            title: TextStyle(color: Colors.white),
           ),
         ),
       ),

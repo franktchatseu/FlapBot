@@ -1,6 +1,7 @@
 import 'package:flap_bot/UI/start.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Introduction extends StatefulWidget {
   @override
@@ -132,8 +133,10 @@ class _IntroductionScreenState extends State<Introduction> {
         ),
 
       ],
-      onDone: () {
+      onDone: () async {
         // When done button is press
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setBool("firstload", true);
         Navigator.of(context).push(
             MaterialPageRoute(
                 builder: (context) => StartPage()
