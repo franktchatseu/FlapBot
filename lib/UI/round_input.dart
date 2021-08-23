@@ -40,7 +40,7 @@ class RoundInput extends StatelessWidget {
               Expanded(
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: 'Poser votre question',
+                    hintText: 'Saisir votre question',
                     border: InputBorder.none,
                   ),
                   controller: _textController,

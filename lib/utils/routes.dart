@@ -9,7 +9,7 @@ class Routes {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (context) => GobalHomeScreen());
+        return MaterialPageRoute(builder: (context) => RoomPage());
       /*case RouteName.USER_LOGIN:
         return MaterialPageRoute(builder: (_) => LoginScreen());*/
       case RouteName.Home:

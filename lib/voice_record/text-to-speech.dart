@@ -8,7 +8,8 @@ class TextToSpeech extends StatefulWidget {
   String text;
   bool isPlaying = false;
   bool isFast = false;
-  TextToSpeech(this.text);
+  int withButton =0;
+  TextToSpeech(this.text,{this.withButton});
   @override
   _TTSPluginRecipeState createState() => _TTSPluginRecipeState();
 }
@@ -115,8 +116,8 @@ class _TTSPluginRecipeState extends State<TextToSpeech> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          playButton(context),
-          SpeedButton(context)
+          widget.withButton==1 || widget.withButton==0?playButton(context):Container(),
+          widget.withButton==2 || widget.withButton==0?SpeedButton(context):Container(),
         ],
       ),
     );

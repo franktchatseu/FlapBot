@@ -3,8 +3,27 @@ import 'package:flap_bot/chat_list/chat_room_app_bar.dart';
 import 'package:flap_bot/chat_list/chat_thread.dart';
 import 'package:flap_bot/chat_list/send_message_bar.dart';
 import 'package:flap_bot/model/thread.dart';
+import 'package:flap_bot/voice_record/text-to-speech.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcase.dart';
+import 'package:showcaseview/showcase_widget.dart';
+
+class RoomPage extends StatefulWidget {
+  @override
+  _RoomPageState createState() => _RoomPageState();
+}
+
+class _RoomPageState extends State<RoomPage> {
+  @override
+  Widget build(BuildContext context) {
+    return ShowCaseWidget(
+        builder: Builder(
+          builder: (context)=>ChatRoom(),
+        )
+    );
+  }
+}
 
 
 class ChatRoom extends StatefulWidget {
@@ -15,7 +34,13 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
-  final List<ChatThread> _chatThreads = [];
+  final List<dynamic> _chatThreads = [];
+  String WelcomeMessage = "Salut moi c'est FlapBot UY1 je suis à ta disposition.  As tu besoin des informations liées aux procédures de préinscriptions, locations des lieux de UY1, obtention d'une chambre d'étudiant,...?";
+  GlobalKey _one = GlobalKey();
+  GlobalKey _two = GlobalKey();
+  GlobalKey _three = GlobalKey();
+  GlobalKey _four = GlobalKey();
+  GlobalKey _five = GlobalKey();
 
 
   ChatThread _buildChatThread(Thread thread) {
@@ -64,11 +89,11 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
 
   @override
   void initState() {
+
     final threads = [
       Thread(fromSelf: true, message: "Salut je viens d'arriver à l'université et j'aimerais savoir comment m'y prendre"),
-      Thread(fromSelf: false, message: "👋 Salut moi c'est FlapBot UY1 je suis à ta disposition.  As tu besoin des informations liées aux procédures de préinscriptions, locations des lieux de UY1, obtention d'une chambre d'étudiant,...? ",showVoice: false),
-      Thread(fromSelf: false, message: "Je parle aussi tu sais.. tu peux apppuyer sur le bouton play pour m'ecouter",showVoice: true),
-      Thread(fromSelf: false, message: "Aussi, n'oublie pas que tu as la possibilité d'utiliser ton micro pour parler en faisant un simple clic dessus. 😊",showVoice: false),
+      // Thread(fromSelf: false, message: "👋 Salut moi c'est FlapBot UY1 je suis à ta disposition.  As tu besoin des informations liées aux procédures de préinscriptions, locations des lieux de UY1, obtention d'une chambre d'étudiant,...? ",showVoice: false),
+      Thread(fromSelf: false, message: "Je suis à toi. Quelle est ta préoccupation?",showVoice: true),
 
     ];
 
@@ -77,8 +102,62 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
       _chatThreads.add(ct);
       ct.animationController.forward();
     });
+    final other = _buildChatThread(Thread(fromSelf: false, message: WelcomeMessage,showVoice: false));
+    _chatThreads.insert(1,
+        Row(
+          children: [
+            other,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Showcase(
+                  key: _two,
+                  description: "Cliquez sur l'icone en vert pour écouter Flapbot",
+                  child: TextToSpeech(WelcomeMessage,withButton: 1,),
+                ),
+                SizedBox(height: 10,),
+                Showcase(
+                  key: _three,
+                  description: "Augmenter la vitesse de lecture 😊",
+                  child: TextToSpeech("message",withButton: 2,),
+                ),
+              ],
+            )
+          ],
+        )
+    );
+    other.animationController.forward();
+    displayShowcase().then((status) {
+      if (status) {
 
+        WidgetsBinding.instance.addPostFrameCallback((_) =>
+            ShowCaseWidget.of(context)
+                .startShowCase([_one, _two, _three, _four, _five]));
+      }
+    });
     super.initState();
+
+  }
+
+
+  SharedPreferences preferences;
+
+  displayShowcase() async {
+    preferences = await SharedPreferences.getInstance();
+    bool showcaseVisibilityStatus = preferences.getBool("showShowcase");
+
+    if (showcaseVisibilityStatus == null) {
+      preferences.setBool("showShowcase", false).then((bool success) {
+        if (success)
+          print("Successfull in writing showshoexase");
+        else
+          print("some bloody problem occured");
+      });
+
+      return true;
+    }
+
+    return false;
   }
 
   @override
@@ -146,7 +225,14 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
             Expanded(
               child: _buildMessageDisplay(),
             ),
-            SendMessageBar(_handleSubmitted),
+            Showcase(
+                key: _one,
+                description: 'Taper sur le micro et poser votre question en parlant',
+                contentPadding: EdgeInsets.all(6.0),
+                showcaseBackgroundColor: Theme.of(context).primaryColor,
+                textColor: Colors.white,
+                shapeBorder: CircleBorder(),
+                child: SendMessageBar(_handleSubmitted)),
           ],
         ),
       ),
@@ -172,5 +258,32 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
     });
 
     super.dispose();
+  }
+}
+
+
+class KeysToBeInherited extends InheritedWidget {
+  final GlobalKey cartIndicatorKey;
+  final GlobalKey categoriesKey;
+  final GlobalKey optionsKey;
+  final GlobalKey searchKey;
+  final GlobalKey nameKey;
+
+  KeysToBeInherited({
+    this.cartIndicatorKey,
+    this.categoriesKey,
+    this.optionsKey,
+    this.nameKey,
+    this.searchKey,
+    Widget child,
+  }) : super(child: child);
+
+  static KeysToBeInherited of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<KeysToBeInherited>();
+  }
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) {
+    return true;
   }
 }

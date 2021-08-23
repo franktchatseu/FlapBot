@@ -61,7 +61,7 @@ class _LeftThread extends StatelessWidget {
   final Color backgroundColor;
   final double r;
   final Color chatLeftThread = Color(0xFFf0f0f0);
-  bool showVoice = false;
+  bool showVoice = true;
 
   _LeftThread(this.message,
       {this.r = 2.5, this.backgroundColor = Colors.white,this.showVoice});

@@ -8,8 +8,6 @@ class GobalHomeScreen extends StatefulWidget {
   _GobalHomeScreenState createState() => _GobalHomeScreenState();
 }
 
-
-
 class _GobalHomeScreenState extends State<GobalHomeScreen> {
 
   @override
@@ -39,7 +37,7 @@ class _GobalHomeScreenState extends State<GobalHomeScreen> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     bool isfirstload = pref.getBool("firstload");
     if(isfirstload==null){
-     // pref.setBool("firstload", true);
+     //pref.setBool("firstload", true);
       return true;
     }
     return false;
