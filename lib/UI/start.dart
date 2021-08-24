@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flap_bot/View_Model/sign_in_view_model.dart';
+import 'package:flap_bot/auth/phone-auth.dart';
 import 'package:flap_bot/chat_list/chat_room.dart';
 import 'package:flap_bot/utils/routeNames.dart';
 import 'package:flap_bot/utils/view_state.dart';
@@ -139,6 +140,33 @@ class _StartPageState extends State<StartPage> {
                 )
             ),
           ),
+          SizedBox(height: 20.0,),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => PhoneAuthPage()
+                  )
+              );
+            },
+            child: Container(
+              height: 40,
+              width: 215,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30)),
+              child: Center(
+                child: Text(
+                  "Par numéro de télephone",
+                  style: TextStyle(
+                      fontFamily: 'Google Sans',
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

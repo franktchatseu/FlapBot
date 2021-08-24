@@ -1,4 +1,7 @@
 import 'package:flap_bot/UI/Home-screen.dart';
+import 'package:flap_bot/UI/start.dart';
+import 'package:flap_bot/auth/phone-auth.dart';
+import 'package:flap_bot/auth/phone-loginp.dart';
 import 'package:flap_bot/chat_list/chat_room.dart';
 import 'package:flap_bot/introduction_screen/introduction_screen.dart';
 import 'package:flap_bot/utils/routeNames.dart';
@@ -9,7 +12,8 @@ class Routes {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (context) => RoomPage());
+        //return MaterialPageRoute(builder: (context) => RoomPage());
+        return MaterialPageRoute(builder: (context) => StartPage());
       /*case RouteName.USER_LOGIN:
         return MaterialPageRoute(builder: (_) => LoginScreen());*/
       case RouteName.Home:
