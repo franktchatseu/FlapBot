@@ -14,7 +14,7 @@ class PhoneAuthPage extends StatefulWidget {
 }
 
 class _PhoneAuthPageState extends State<PhoneAuthPage> {
-  int start = 30;
+  int start = 45;
   bool wait = false;
   String buttonName = "Send";
   TextEditingController phoneController = TextEditingController();
@@ -28,8 +28,8 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-          "SignUp",
-          style: TextStyle(color: Colors.white, fontSize: 24),
+          "Connectez Vous avec FlapBot",
+          style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         centerTitle: true,
       ),

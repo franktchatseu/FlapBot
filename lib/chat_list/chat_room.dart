@@ -89,7 +89,7 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
 
   @override
   void initState() {
-
+    super.initState();
     final threads = [
       Thread(fromSelf: true, message: "Salut je viens d'arriver à l'université et j'aimerais savoir comment m'y prendre"),
       // Thread(fromSelf: false, message: "👋 Salut moi c'est FlapBot UY1 je suis à ta disposition.  As tu besoin des informations liées aux procédures de préinscriptions, locations des lieux de UY1, obtention d'une chambre d'étudiant,...? ",showVoice: false),
@@ -129,13 +129,12 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
     other.animationController.forward();
     displayShowcase().then((status) {
       if (status) {
-
         WidgetsBinding.instance.addPostFrameCallback((_) =>
             ShowCaseWidget.of(context)
                 .startShowCase([_one, _two, _three, _four, _five]));
       }
     });
-    super.initState();
+
 
   }
 

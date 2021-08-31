@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthClass {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -106,7 +107,12 @@ class AuthClass {
           verificationId: verificationId, smsCode: smsCode);
 
       final firebaseUser = (await _auth.signInWithCredential(credential)).user;
-      storeTokenAndData(firebaseUser);
+      print("CREDENTIAL");
+      print(firebaseUser.phoneNumber);
+      // save user credential
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      _prefs.setString("phone",firebaseUser.phoneNumber);
+      //storeTokenAndData(firebaseUser);
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (builder) => RoomPage()),

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flap_bot/View_Model/sign_in_view_model.dart';
 import 'package:flap_bot/auth/phone-auth.dart';
 import 'package:flap_bot/chat_list/chat_room.dart';
+import 'package:flap_bot/services/auth-service.dart';
 import 'package:flap_bot/utils/routeNames.dart';
 import 'package:flap_bot/utils/view_state.dart';
 import 'package:flutter/material.dart';
@@ -21,12 +22,17 @@ class _StartPageState extends State<StartPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
    bool loginstatus = false;
 
-  bool isSignIn =false;
+  bool isalreadyLog =false;
   bool google =false;
+
+  AuthClass authClass = AuthClass();
   @override
   void initState() {
     checkIfUserLoggedIn();
     super.initState();
+    authClass.getToken().then((value) => print(value));
+    print("le string");
+
   }
   Future<FirebaseUser> signInWithGoogle() async {
     setState(() {
@@ -92,60 +98,90 @@ class _StartPageState extends State<StartPage> {
             ),
           ),
           SizedBox(height: 20.0,),
-          InkWell(
-            onTap: (){
-              print("ds");
-              signInWithGoogle()
-                  .then((FirebaseUser user){
+          this.isalreadyLog==false?Column(
+            children: [
+              InkWell(
+                onTap: (){
+                  print("ds");
+                  signInWithGoogle()
+                      .then((FirebaseUser user){
 
-                Navigator.of(context).pushNamedAndRemoveUntil
-                  (RouteName.Home, (Route<dynamic> route) => false
-                );}
-              ).catchError((e) => print(e));
-            },
-            child: Container(
-                width: MediaQuery.of(context).size
-                    .width/2 +20,
-                height: MediaQuery.of(context).size.height/18,
-                margin: EdgeInsets.only(top: 25),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color:Colors.white
-                ),
-                child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        this.loginstatus==false?Container(
-                          height: 30.0,
-                          width: 30.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image:
-                                AssetImage('assets/google.jpg'),
-                                fit: BoxFit.cover),
-                            shape: BoxShape.circle,
-                          ),
-                        ):CircularProgressIndicator(),
-                        Text('Sign in with Google',
-                          style: TextStyle(
-                            fontFamily: 'Google Sans',
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black
-                          ),
-                        ),
-                      ],
+                    Navigator.of(context).pushNamedAndRemoveUntil
+                      (RouteName.Home, (Route<dynamic> route) => false
+                    );}
+                  ).catchError((e) => print(e));
+                },
+                child: Container(
+                    width: MediaQuery.of(context).size
+                        .width/2 +20,
+                    height: MediaQuery.of(context).size.height/18,
+                    margin: EdgeInsets.only(top: 25),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color:Colors.white
+                    ),
+                    child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            this.loginstatus==false?Container(
+                              height: 30.0,
+                              width: 30.0,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image:
+                                    AssetImage('assets/google.jpg'),
+                                    fit: BoxFit.cover),
+                                shape: BoxShape.circle,
+                              ),
+                            ):CircularProgressIndicator(),
+                            Text('Sign in with Google',
+                              style: TextStyle(
+                                  fontFamily: 'Google Sans',
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black
+                              ),
+                            ),
+                          ],
+                        )
                     )
-                )
-            ),
-          ),
-          SizedBox(height: 20.0,),
-          InkWell(
+                ),
+              ),
+              SizedBox(height: 20.0,),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => PhoneAuthPage()
+                      )
+                  );
+                },
+                child: Container(
+                  height: 40,
+                  width: 215,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Center(
+                    child: Text(
+                      "Par numéro de télephone",
+                      style: TextStyle(
+                          fontFamily: 'Google Sans',
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )
+          :InkWell(
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) => PhoneAuthPage()
+                      builder: (context) => ChatRoom()
                   )
               );
             },
@@ -157,7 +193,7 @@ class _StartPageState extends State<StartPage> {
                   borderRadius: BorderRadius.circular(30)),
               child: Center(
                 child: Text(
-                  "Par numéro de télephone",
+                  "Demarrer la conversation",
                   style: TextStyle(
                       fontFamily: 'Google Sans',
                       fontSize: 16,
@@ -190,11 +226,17 @@ class _StartPageState extends State<StartPage> {
   // check if user is already connect
   checkIfUserLoggedIn()async{
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    bool userLoggedIn  = (_prefs.getString('email')!=null?true:false);
+    print('CREDENCREDRE');
+    print(_prefs.getString('email'));
+    print(_prefs.getString('phone'));
+    bool userLoggedInEmail  = (_prefs.getString('email')!=null?true:false);
+    bool userLoggedInPhone  = (_prefs.getString('phone')!=null?true:false);
     //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChatRoom()));
-    if(userLoggedIn==true){
+    if(userLoggedInEmail==true || userLoggedInPhone==true){
       print(_prefs.getString('email'));
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChatRoom()));
+      setState(() {
+        this.isalreadyLog = true;
+      });
     }
 
   }
